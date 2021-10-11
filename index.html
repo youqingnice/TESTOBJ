@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    /**
+     * 递归
+    */
+
+    // 简易递归 打印6次无情拉绍
+    // let num = 1;
+    // function fn () {
+    //   console.log('无情拉绍')
+    //   if (num === 6) return
+    //   num++
+    //   fn()
+    // }
+    // fn()
+
+    // 利用递归求1~n的阶乘
+    // function fn(n) {
+    //   if (n === 1) return
+    //   return n * (n - 1)
+    // }
+    // console.log(fn(3))
+
+    // 利用递归，求斐波那契
+    // function fb(n) {
+    //   if (n === 1 || n === 2) return 1
+    //   return fb(n - 1) + fb(n - 2)
+    // }
+    // console.log(fb(6))
+
+    /**
+     * 闭包：一个作用域能访问到另一个函数的局部变量就叫做闭包
+    */
+
+   // 内部访问
+  //  function fn() {
+  //    var num = 10
+  //    function nn() {
+  //     console.log(num)
+  //    }
+  //    nn()
+  //  }
+  //  fn()
+
+   // 全局访问
+  //  function fn() {
+  //    var num = 10
+  //    return function nn() {
+  //     console.log(num)
+  //    }
+  //  }
+  //  var f = fn()
+  //  f()
+
+  /**
+  * 浅拷贝: 深层次的数据会随着拷贝的数据改变而改变原有数据,更深层次对象只拷贝引用地址
+  */
+
+ // es5
+//  var obj = {
+//    id: 123,
+//    name: 'rgg',
+//    msg: {
+//     age: 18
+//    }
+//  }
+//  var o = {}
+//  for(var k in obj) {
+//    o[k] = obj[k]
+//  }
+//  console.log(o)
+//  o.msg.age = 23
+//  console.log(obj)
+
+//  //es6
+//  console.log('-------------------------')
+//  var p = {}
+//  Object.assign(p, obj)
+//  console.log(p)
+
+ /**
+  * 深拷贝: 全部拷贝，组成新数据，不干扰原数据
+*/
+
+//   var obj = {
+//    id: 123,
+//    name: 'rgg',
+//    msg: {
+//     age: 18
+//    },
+//    color: ['pink', 'red']
+//  }
+//  // 递归  考虑数组与对象，没有考虑其它复杂数据类型例如正则
+//  var o = {}
+//  function deepcopy(newObj, oldObj) {
+//   for(var k in oldObj) {
+//     // 获取属性值
+//     var item = oldObj[k]
+//     // 判断属性值属于那种数据类型
+//     if (item instanceof Array) {
+//       newObj[k] = []
+//       deepcopy(newObj[k], item)
+//     } else if (item instanceof Object) {
+//       newObj[k] = {}
+//       deepcopy(newObj[k], item)
+//     } else {
+//       newObj[k] = item
+//     }
+//   }
+//  }
+//  deepcopy(o, obj)
+//  console.log(o)
+//  o.msg.age = 60
+//  console.log(obj)
+
+ /**
+  * 构造函数和原型  es5
+  */
+
+  // // new Object() 创建对象
+  // var obj1 = new Object()
+  // // 对象字面量创建对象
+  // var obj2 = {}
+
+  // // 构造函数创建对象
+  // function Star(name, age) {
+  //   this.name = name
+  //   this.age = age
+  //   this.sing = function() {
+  //     console.log('我会唱歌，你会吗？')
+  //   }
+  // }
+
+  // var zxy = new Star('张学友', 50)
+  // console.log(zxy)
+  // console.log(zxy.name)
+  // zxy.sing()
+
+  // Star.abc = 132
+  // console.log(Star.abc) // 静态成员只能通过构造函数来访问
+
+  // // prototype原型, 每个构造函数上都有一个prototype对象
+  // Star.prototype.haha = function() {
+  //   console.log('我是神！')
+  // }
+  // zxy.haha()
+  // // 一般情况下，公共属性直接定义在构造函数中。
+  // // 公共方法放在原型对象中（prototype）
+
+  // // 对象身上有一个 __proto__ 指向构造函数的原型对象 prototype
+  // console.log(zxy.__proto__ === Star.prototype) // 对象的__proto__ 等价于 构造函数的原型对象prototype
+
+  // // constructor 主要用于记录该对象引用于哪个构造函数， 
+  // // 它可以让原型对象重新指向原来的构造函数
+  // Star.prototype = {
+  //   constructor: Star,
+  //   kkk: function() {
+  //     console.log('我是niub！')
+  //   },
+  //   jjj: function() {
+  //     console.log('我是wudi！')
+  //   }
+  // }
+  // console.log(Star.prototype)
+  // console.log(zxy.__proto__)
+  // console.log(Star.prototype.constructor)
+  // console.log(zxy.__proto__.constructor)
+
+  // 构造函数、实例、原型对象的关系
+  /**
+   *  1、构造函数自身带了原型对象prototype，原型对象可以通过constructor
+   *     去知道自身引用的是哪个构造函数
+   *  2、构造函数可以创建多个对象实例，实例的constructor也是指向对应的构造函数
+   *     并且通过__proto__ 可以找到对应的原型对象 prototype
+  */
+
+
+  // /**
+  //  * 原型链
+  // */
+  // function Star(name, age) {
+  //   this.name = name
+  //   this.age = age
+  // }
+  // Star.prototype.haha = function() {
+  //   console.log('我是神！')
+  // }
+  // var zxy = new Star('张学友', 50)
+  // // 只要有对象，就与__proto__原型，指向原型对象
+  // console.log(Star.prototype)
+  // // Star原型对象里面的__proto__原型指向的是Object.prototype
+  // console.log(Star.prototype.__proto__ === Object.prototype)
+  // // Object.prototype原型对象里面的__proto__原型指向的是null
+  // console.log(Object.prototype.__proto__)
+
+  /**
+   *  继承
+  */
+  // // es5
+  // // 借用父构造函数继承属性
+  // function Fa(name, age) {
+  //   this.name = name,
+  //   this.age = age
+  // }
+
+  // function Son(name, age, score) { // call() 可以改变this的指向， 这里把父函数的this指向子函数就可以实现继承
+  //   Fa.call(this, name, age)
+  //   this.score = score
+  // }
+
+  // // 借用原型对象继承父类型方法
+  // Fa.prototype.money = function() {
+  //   console.log(10000000000)
+  // }
+
+  // // Son.prototype = Fa.prototype 这样子原型对象修改了也会修改父原型对象
+  // Son.prototype = new Fa()
+  // Son.prototype.constructor = Son
+  // Son.prototype.kaoshi = function() {
+  //   console.log('kaoshi')
+  // }
+
+  // // var ha = new Fa('李兰芳', 60)
+  // var hah = new Son('张学友', 18, 100000)
+  // // console.log(ha)
+  // console.log(hah)
+  // console.log(Fa.prototype)
+  // console.log(Son.prototype.constructor)
+  
+  // es6 通过 类(class)  实现面向对象变编程
+    class Star {
+
+    }
+    Star.prototype.haha = function() {
+      console.log('我是神！')
+    }
+    console.log(Star.prototype)
+    console.log(Star.prototype.constructor)
+
+    var zxy = new Star()
+    console.log(zxy)
+    console.log(zxy.__proto__ === Star.prototype)
+  </script>
+</body>
+</html>
